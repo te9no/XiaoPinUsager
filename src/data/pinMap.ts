@@ -8,6 +8,7 @@ import {
   SECONDARY_RIGHT_PIN_X,
   PRIMARY_LEFT_PIN_X,
   PRIMARY_RIGHT_PIN_X,
+  SECONDARY_BOARD,
 } from '../layout/geometry'
 
 export type PinCategory =
@@ -58,7 +59,6 @@ const leftStartY = PRIMARY_LEFT.startY
 const leftSpacing = PRIMARY_LEFT.spacing
 const rightStartY = PRIMARY_RIGHT.startY
 const rightSpacing = PRIMARY_RIGHT.spacing
-const secondaryLeftStartY = SECONDARY_LEFT.startY
 const secondaryLeftSpacing = SECONDARY_LEFT.spacing
 const secondaryRightStartY = SECONDARY_RIGHT.startY
 const secondaryRightSpacing = SECONDARY_RIGHT.spacing
@@ -67,6 +67,9 @@ const primaryRightX = PRIMARY_RIGHT_PIN_X
 const primaryBoardLeft = BOARD_X
 const bottomXs = Array.from({ length: 5 }, (_, index) => primaryBoardLeft + 20 + index * 110)
 const bottomRowY1 = 660
+const secondaryBoardBottom = SECONDARY_BOARD.y + SECONDARY_BOARD.height
+const secondaryLeftStartNearBottom =
+  secondaryBoardBottom - secondaryLeftSpacing * 3 - 40
 
 export const XIAO_NRF_PINS: PinDefinition[] = [
   {
@@ -347,7 +350,11 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D19',
     category: 'spi',
     board: 'secondary',
-    position: { x: secondaryLeftX, y: secondaryLeftStartY, anchor: 'left' },
+    position: {
+      x: secondaryLeftX,
+      y: secondaryLeftStartNearBottom,
+      anchor: 'left',
+    },
   },
   {
     id: 'p1_05',
@@ -358,7 +365,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     board: 'secondary',
     position: {
       x: secondaryLeftX,
-      y: secondaryLeftStartY + secondaryLeftSpacing,
+      y: secondaryLeftStartNearBottom + secondaryLeftSpacing,
       anchor: 'left',
     },
   },
@@ -371,7 +378,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     board: 'secondary',
     position: {
       x: secondaryLeftX,
-      y: secondaryLeftStartY + secondaryLeftSpacing * 2,
+      y: secondaryLeftStartNearBottom + secondaryLeftSpacing * 2,
       anchor: 'left',
     },
   },
