@@ -73,8 +73,7 @@ export default function App() {
           <h1>ピン配置を自由にカスタマイズ</h1>
           <p className="intro">
             ピン番号（P0.xx）、Arduino番号、端子名をベースに任意の別名を追加できます。
-            SVGとして書き出せるので、最終的にNetlifyでそのまま公開できます。Plus
-            シリーズにも切り替え可能です。
+            Plusシリーズにも切り替え可能です。
           </p>
         </div>
         <div className="board-switch" role="group" aria-label="XIAO board selection">

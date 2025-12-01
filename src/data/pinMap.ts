@@ -8,7 +8,7 @@ import {
   SECONDARY_RIGHT_PIN_X,
   PRIMARY_LEFT_PIN_X,
   PRIMARY_RIGHT_PIN_X,
-  SECONDARY_BOARD,
+  PRIMARY_BOARD_BOTTOM,
 } from '../layout/geometry'
 
 export type PinCategory =
@@ -55,21 +55,32 @@ export const PIN_CATEGORY_INFO: Record<
   nfc: { label: 'NFC', color: '#6cd6ff' },
 }
 
-const leftStartY = PRIMARY_LEFT.startY
+const PIN_RECT_HEIGHT = 60
+const PIN_RECT_HALF = PIN_RECT_HEIGHT / 2
+
+const leftCenterStart = PRIMARY_LEFT.startY
 const leftSpacing = PRIMARY_LEFT.spacing
-const rightStartY = PRIMARY_RIGHT.startY
+const rightCenterStart = PRIMARY_RIGHT.startY
 const rightSpacing = PRIMARY_RIGHT.spacing
+const secondaryLeftCenterStart = SECONDARY_LEFT.startY
 const secondaryLeftSpacing = SECONDARY_LEFT.spacing
-const secondaryRightStartY = SECONDARY_RIGHT.startY
+const secondaryRightCenterStart = SECONDARY_RIGHT.startY
 const secondaryRightSpacing = SECONDARY_RIGHT.spacing
 const primaryLeftX = PRIMARY_LEFT_PIN_X
 const primaryRightX = PRIMARY_RIGHT_PIN_X
 const primaryBoardLeft = BOARD_X
 const bottomXs = Array.from({ length: 5 }, (_, index) => primaryBoardLeft + 20 + index * 110)
-const bottomRowY1 = 660
-const secondaryBoardBottom = SECONDARY_BOARD.y + SECONDARY_BOARD.height
-const secondaryLeftStartNearBottom =
-  secondaryBoardBottom - secondaryLeftSpacing * 3 - 40
+const bottomRowY1 = PRIMARY_BOARD_BOTTOM + 80
+
+const yByIndex = (start: number, spacing: number, index: number) =>
+  start + spacing * index - PIN_RECT_HALF
+
+const leftY = (index: number) => yByIndex(leftCenterStart, leftSpacing, index)
+const rightY = (index: number) => yByIndex(rightCenterStart, rightSpacing, index)
+const secondaryLeftY = (index: number) =>
+  yByIndex(secondaryLeftCenterStart, secondaryLeftSpacing, index)
+const secondaryRightY = (index: number) =>
+  yByIndex(secondaryRightCenterStart, secondaryRightSpacing, index)
 
 export const XIAO_NRF_PINS: PinDefinition[] = [
   {
@@ -78,7 +89,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'AIN0',
     arduino: 'D0 / A0',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(0), anchor: 'left' },
   },
   {
     id: 'p0_03',
@@ -86,7 +97,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'AIN1',
     arduino: 'D1 / A1',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(1), anchor: 'left' },
   },
   {
     id: 'p0_28',
@@ -94,7 +105,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'AIN4',
     arduino: 'D2 / A2',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 2, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(2), anchor: 'left' },
   },
   {
     id: 'p0_29',
@@ -102,7 +113,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'AIN5',
     arduino: 'D3 / A3',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 3, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(3), anchor: 'left' },
   },
   {
     id: 'p0_04',
@@ -110,7 +121,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'SDA / AIN2',
     arduino: 'D4 / A4',
     category: 'i2c',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 4, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(4), anchor: 'left' },
   },
   {
     id: 'p0_05',
@@ -118,7 +129,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'SCL / AIN3',
     arduino: 'D5 / A5',
     category: 'i2c',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 5, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(5), anchor: 'left' },
   },
   {
     id: 'p1_11',
@@ -126,7 +137,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'TX',
     arduino: 'D6',
     category: 'uart',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 6, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(6), anchor: 'left' },
   },
   {
     id: '5v',
@@ -134,7 +145,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'Power In',
     arduino: '5V',
     category: 'power',
-    position: { x: primaryRightX, y: rightStartY, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(0), anchor: 'right' },
   },
   {
     id: 'gnd',
@@ -142,7 +153,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'Ground',
     arduino: 'GND',
     category: 'gnd',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(1), anchor: 'right' },
   },
   {
     id: '3v3',
@@ -150,7 +161,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'Power Out',
     arduino: '3V3',
     category: 'power',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 2, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(2), anchor: 'right' },
   },
   {
     id: 'p1_15',
@@ -158,7 +169,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'MOSI',
     arduino: 'D10',
     category: 'spi',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 3, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(3), anchor: 'right' },
   },
   {
     id: 'p1_14',
@@ -166,7 +177,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'MISO',
     arduino: 'D9',
     category: 'spi',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 4, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(4), anchor: 'right' },
   },
   {
     id: 'p1_13',
@@ -174,7 +185,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'SCK',
     arduino: 'D8',
     category: 'spi',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 5, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(5), anchor: 'right' },
   },
   {
     id: 'p1_12',
@@ -182,7 +193,7 @@ export const XIAO_NRF_PINS: PinDefinition[] = [
     terminal: 'RX',
     arduino: 'D7',
     category: 'uart',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 6, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(6), anchor: 'right' },
   },
   {
     id: 'p0_16',
@@ -236,7 +247,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'AIN0',
     arduino: 'D0 / A0',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(0), anchor: 'left' },
   },
   {
     id: 'p0_03',
@@ -244,7 +255,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'AIN1',
     arduino: 'D1 / A1',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(1), anchor: 'left' },
   },
   {
     id: 'p0_28',
@@ -252,7 +263,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'AIN2',
     arduino: 'D2 / A2',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 2, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(2), anchor: 'left' },
   },
   {
     id: 'p0_29',
@@ -260,7 +271,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'AIN3',
     arduino: 'D3 / A3',
     category: 'analog',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 3, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(3), anchor: 'left' },
   },
   {
     id: 'p0_04',
@@ -268,7 +279,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'SDA / A4',
     arduino: 'D4 / SDA',
     category: 'i2c',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 4, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(4), anchor: 'left' },
   },
   {
     id: 'p0_05',
@@ -276,7 +287,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'SCL / A5',
     arduino: 'D5 / SCL',
     category: 'i2c',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 5, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(5), anchor: 'left' },
   },
   {
     id: 'p1_11',
@@ -284,7 +295,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'TX',
     arduino: 'D6',
     category: 'uart',
-    position: { x: primaryLeftX, y: leftStartY + leftSpacing * 6, anchor: 'left' },
+    position: { x: primaryLeftX, y: leftY(6), anchor: 'left' },
   },
   {
     id: '5v',
@@ -292,7 +303,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'Power In',
     arduino: '5V',
     category: 'power',
-    position: { x: primaryRightX, y: rightStartY, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(0), anchor: 'right' },
   },
   {
     id: 'gnd',
@@ -300,7 +311,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'Ground',
     arduino: 'GND',
     category: 'gnd',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(1), anchor: 'right' },
   },
   {
     id: '3v3',
@@ -308,7 +319,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'Power Out',
     arduino: '3V3',
     category: 'power',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 2, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(2), anchor: 'right' },
   },
   {
     id: 'p1_15',
@@ -316,7 +327,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'MOSI',
     arduino: 'D10',
     category: 'spi',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 3, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(3), anchor: 'right' },
   },
   {
     id: 'p1_14',
@@ -324,7 +335,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'MISO',
     arduino: 'D9',
     category: 'spi',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 4, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(4), anchor: 'right' },
   },
   {
     id: 'p1_13',
@@ -332,7 +343,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'SCK',
     arduino: 'D8',
     category: 'spi',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 5, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(5), anchor: 'right' },
   },
   {
     id: 'p1_12',
@@ -340,7 +351,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     terminal: 'RX',
     arduino: 'D7',
     category: 'uart',
-    position: { x: primaryRightX, y: rightStartY + rightSpacing * 6, anchor: 'right' },
+    position: { x: primaryRightX, y: rightY(6), anchor: 'right' },
   },
   // Secondary board left column
   {
@@ -350,11 +361,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D19',
     category: 'spi',
     board: 'secondary',
-    position: {
-      x: secondaryLeftX,
-      y: secondaryLeftStartNearBottom,
-      anchor: 'left',
-    },
+    position: { x: secondaryLeftX, y: secondaryLeftY(-1), anchor: 'left' },
   },
   {
     id: 'p1_05',
@@ -363,11 +370,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D18',
     category: 'spi',
     board: 'secondary',
-    position: {
-      x: secondaryLeftX,
-      y: secondaryLeftStartNearBottom + secondaryLeftSpacing,
-      anchor: 'left',
-    },
+    position: { x: secondaryLeftX, y: secondaryLeftY(0), anchor: 'left' },
   },
   {
     id: 'p1_03',
@@ -376,11 +379,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D17',
     category: 'spi',
     board: 'secondary',
-    position: {
-      x: secondaryLeftX,
-      y: secondaryLeftStartNearBottom + secondaryLeftSpacing * 2,
-      anchor: 'left',
-    },
+    position: { x: secondaryLeftX, y: secondaryLeftY(1), anchor: 'left' },
   },
   // Secondary board right column
   {
@@ -390,7 +389,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D11',
     category: 'pin',
     board: 'secondary',
-    position: { x: secondaryRightX, y: secondaryRightStartY, anchor: 'right' },
+    position: { x: secondaryRightX, y: secondaryRightY(0), anchor: 'right' },
   },
   {
     id: 'p0_19',
@@ -399,11 +398,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D12',
     category: 'pin',
     board: 'secondary',
-    position: {
-      x: secondaryRightX,
-      y: secondaryRightStartY + secondaryRightSpacing,
-      anchor: 'right',
-    },
+    position: { x: secondaryRightX, y: secondaryRightY(1), anchor: 'right' },
   },
   {
     id: 'p1_01',
@@ -412,11 +407,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D13',
     category: 'pin',
     board: 'secondary',
-    position: {
-      x: secondaryRightX,
-      y: secondaryRightStartY + secondaryRightSpacing * 2,
-      anchor: 'right',
-    },
+    position: { x: secondaryRightX, y: secondaryRightY(2), anchor: 'right' },
   },
   {
     id: 'p0_08',
@@ -425,11 +416,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D14',
     category: 'uart',
     board: 'secondary',
-    position: {
-      x: secondaryRightX,
-      y: secondaryRightStartY + secondaryRightSpacing * 3,
-      anchor: 'right',
-    },
+    position: { x: secondaryRightX, y: secondaryRightY(3), anchor: 'right' },
   },
   {
     id: 'p0_10_plus',
@@ -438,11 +425,7 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D15',
     category: 'uart',
     board: 'secondary',
-    position: {
-      x: secondaryRightX,
-      y: secondaryRightStartY + secondaryRightSpacing * 4,
-      anchor: 'right',
-    },
+    position: { x: secondaryRightX, y: secondaryRightY(4), anchor: 'right' },
   },
   {
     id: 'p0_31',
@@ -451,10 +434,6 @@ export const XIAO_NRF_PLUS_PINS: PinDefinition[] = [
     arduino: 'D16',
     category: 'power',
     board: 'secondary',
-    position: {
-      x: secondaryRightX,
-      y: secondaryRightStartY + secondaryRightSpacing * 5,
-      anchor: 'right',
-    },
+    position: { x: secondaryRightX, y: secondaryRightY(5), anchor: 'right' },
   },
 ]

@@ -154,6 +154,26 @@ button.primary {
   font-weight: 600;
 }
 
+.board-brand {
+  font-size: 1.1rem;
+  fill: #1a1e2e;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.board-label {
+  font-size: 0.95rem;
+  fill: #343c52;
+  text-anchor: middle;
+}
+
+.group-label {
+  font-size: 0.9rem;
+  fill: #f2f4ff;
+  text-anchor: middle;
+  font-weight: 600;
+}
+
 .board-title {
   font-size: 1rem;
   letter-spacing: 0.08em;
@@ -169,31 +189,44 @@ button.primary {
   opacity: 0.6;
 }
 
+.board-title--secondary,
+.board-subtitle--secondary {
+  fill: #12131e;
+}
+
 .pin-node text {
   font-family: inherit;
 }
 
-.pin-alias {
-  font-size: 0.82rem;
-  fill: rgba(18, 18, 32, 0.7);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.pin-alias--active {
-  fill: #0c0e18;
-  font-weight: 600;
-}
-
-.pin-terminal {
-  font-size: 0.9rem;
+.pin-label-primary {
+  font-size: 1rem;
   font-weight: 600;
   fill: #050607;
 }
 
-.pin-meta {
-  font-size: 0.78rem;
-  fill: rgba(0, 0, 0, 0.65);
+.pin-terminal {
+  font-weight: 700;
+}
+
+.pin-alias {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  fill: rgba(18, 18, 32, 0.6);
+}
+
+.pin-alias--active {
+  fill: #0c0e18;
+}
+
+.pin-label-secondary {
+  font-size: 0.95rem;
+  fill: rgba(0, 0, 0, 0.75);
+}
+
+.pin-node--dark .pin-label-primary,
+.pin-node--dark .pin-terminal,
+.pin-node--dark .pin-label-secondary {
+  fill: #fff;
 }
 
 .pin-node--dark .pin-alias {
@@ -202,14 +235,6 @@ button.primary {
 
 .pin-node--dark .pin-alias--active {
   fill: #ffffff;
-}
-
-.pin-node--dark .pin-terminal {
-  fill: #ffffff;
-}
-
-.pin-node--dark .pin-meta {
-  fill: rgba(255, 255, 255, 0.85);
 }
 
 .pin-list__header h3 {
